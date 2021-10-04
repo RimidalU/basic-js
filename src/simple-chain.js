@@ -5,28 +5,35 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default {
-  chain: [],
+  array: [],
 
   getLength() {
-    return this.str.length
+    return this.array.length;
   },
 
   addLink( value) {
-        this.chains.push(`( ${value} )`);
-    return this
+    this.array.push(`( ${value} )`);
+    return this;
   },
 
-  removeLink(/* position */) {
+  removeLink(position) {
+    if ( !this.array[position - 1]) {
+      this.array.length = 0;
+      throw new Error("You can't remove incorrect link!");
+    } else {
+      this.array.splice(position - 1, 1);
+      return this;
+    }
   },
   
   reverseChain() {
-    this.chains.reverse();
-    return this
+    this.array.reverse();
+    return this;
   },
 
   finishChain() {
-    const result = this.str;
-  this.str = '';
-  return result;
+    let chain = this.array.join("~~");
+    this.array.length = 0;
+    return chain;
 }
 };
